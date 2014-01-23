@@ -1,0 +1,43 @@
+<style>
+#search_main{
+	width:100%;
+	margin-left:auto;
+	margin-right:auto;	padding-top:10px;
+}
+.blank{
+	width:100%;
+	min-height:400px;
+	margin-left:auto;
+	margin-right:auto;
+}
+.s_title{
+	text-align:center;
+	font-size:24px;
+	padding:5px;
+}
+</style>
+<style>
+.success{text-align:center;font-size:16px;height:40px;}.error{text-align:center;font-size:16px;height:40px;}
+.resend{text-align:center;font-size:16px;height:40px;}
+</style>
+<div class="main">
+<div class="main_lefts">
+            <div class="box">
+                <h5 class="title-2">协同办公</h5>
+                <ul class="side_menu">
+				{pc:content action="category" catid="60" num="10" siteid="$siteid" order="listorder ASC" return="data5"}
+					{loop $data5 $k $v}
+							<li><a href="{$v[url]}">{$v[catname]}</a></li>
+					{/loop}
+				{/pc}
+		</ul>
+    </div>
+</div>
+<div class="main_right">
+<div id="search_main">
+<div id="search_c">
+<div class="s_title">邮件验证</div>	<?php if($success){?>
+		<div class="success">		你好，邮件已经发送到邮箱{$email}，注意查收!		</div>	<?php }?><?php if($error){?><div class="error">你好，{$error}<a href="{$gobackUrl}">返回</a></div><?php }?><?php if($status){?><div class="resend">如果没有收到邮件，请点击<a href="{$resendUrl}">重新发送</a></div><?php }?>
+</div>
+</div>
+</div></div>

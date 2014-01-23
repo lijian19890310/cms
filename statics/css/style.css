@@ -1,0 +1,207 @@
+* {
+	margin: 0;
+	padding: 0;
+}
+body {
+	font: 14px Helvetica, Sans-Serif;
+	background: url('bck.jpg');
+}
+#page-wrap {
+	margin: 25px auto;
+	width: 960px;
+}
+a {
+	text-decoration: none;
+}
+ul {
+	list-style: none;
+}
+p {
+	margin: 15px 0;
+}
+.logo {
+	margin: 20px 0px 30px 0px;
+	position: relative;
+	left: 50%;
+	margin-left: -179px;
+}
+.layout {
+	border:1px solid #FFFFFF;
+	float: left;
+	width: 940px; 
+	margin: 25px 10px 0px 10px;
+	background:none repeat scroll 0 0 #F4F4F4;
+	padding-bottom: 20px;
+	position:relative;
+	
+	/* css3 */
+	-moz-border-radius: 5px;
+	border-radius: 5px;
+	-moz-box-shadow:0 0 5px #484848;
+}
+.slideBtn {
+	position: absolute;
+	width: 29px;
+	height: 42px;
+	top: 20px;
+	right: -29px;
+	display: block;
+	background: url(menu_backBtn.png) no-repeat;
+}
+.open {
+	background-position: top left;
+}
+.close {
+	background-position: bottom left;
+}
+.copyright {
+	margin: 15px auto;
+	padding: 10px;
+	
+	width: 920px;
+	border:1px solid #FFFFFF;
+	text-align: right;
+	background:none repeat scroll 0 0 #F4F4F4;
+	/* css3 */
+	-moz-border-radius: 5px;
+	border-radius: 5px;
+	-moz-box-shadow:0 0 5px #484848;
+}
+.download {
+	position: absolute;
+	top: -11px;
+	right:-11px;
+	display: block;
+	opacity: 0.8;
+}
+.download:hover {
+	opacity: 1;
+}
+.download img {
+	border: 0px;	
+}
+.colorSwich {
+	-moz-border-radius: 5px;
+	border-radius: 5px;
+	-moz-box-shadow:0 0 5px #484848;
+	background:none repeat scroll 0 0 #F4F4F4;
+	border:1px solid #FFFFFF;
+	margin:0 0 20px;
+	padding:15px 15px 28px;
+	width:250px;
+	position: absolute;
+	top: 50px;
+	left: 10px;
+}
+.colorSwich h2{
+	border-bottom:1px solid #282828;
+	font-family:"Helvetica Neue",Arial,"Lucida Grande",sans-serif;
+	font-size:18px;
+	margin-bottom:15px;
+	text-transform:uppercase;
+	line-height:34px;
+	color:#282828;
+}
+.colorSwich .content {
+	float: left;
+	width: 250px; 
+}
+.effecType {
+	margin: 10px 0px 10px 0px;
+}
+.colorSwich .content .style {
+	background:none repeat scroll 0 0 #FBFBFB;
+	padding:5px;
+	border:medium none;
+	-moz-box-shadow:0 0 3px #666666;
+	display: block;	
+	float: left;
+	cursor: pointer;
+	margin: 0px 5px 0px 0px;
+}
+.colorSwich .content .style:hover {
+	-moz-box-shadow:0 0 5px #484848;
+	position: relative;
+	bottom: 2px;
+}
+.colorSwich .content .on {
+	-moz-box-shadow:0 0 5px #484848;
+	position: relative;
+	bottom: 2px;
+}
+.colorSwich .content .style span{
+	width: 34px; 
+	height: 34px;
+	display: block;	
+}
+.colorSwich .content .cp form {
+	float: left;
+}
+.colorSwich .content .cp label {
+	border: 0px solid red;
+	width: 90px; 
+	display:block;
+	float: left;
+	padding: 5px 0px 9px 0px;
+}
+.colorSwich .content .cp input {
+	display:block;
+	width: 12px; 
+	height: 12px; 
+	background:none repeat scroll 0 0 #FBFBFB;
+	padding:5px;
+	border:medium none;
+	-moz-box-shadow:0 0 3px #666666;
+	float: left;
+	margin: 0px 0px 0px 10px;
+	text-indent: -200px;
+}
+.colorSwich .content .cp .btn {
+	width: 160px; 
+	margin: 10px 0px 0px 0px;
+	float: left;;
+}
+.colorSwich .content .cp .btn input{
+	text-indent: 0px;
+	width: 70px;
+	height: 30px; 
+	float: left;	
+	color: #fff;
+	text-align: center;
+	margin: 0px 10px 0px 0px;
+	background-color: #0079B8;
+	background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#0079B8), to(#0079B8), color-stop(.5,#2399D6));
+	background: -moz-linear-gradient(top, #0079B8 0%, #2399D6 50%, #0079B8 100%);
+	border: 1px solid #0079B8;
+}
+.colorSwich .content .cp input:hover{
+	-moz-box-shadow:0 0 5px #484848;
+	position: relative;
+	bottom: 2px;
+	cursor: pointer;
+}
+#getCodeConsole h2{
+	border-bottom:1px solid #282828;
+	font-family:"Helvetica Neue",Arial,"Lucida Grande",sans-serif;
+	font-size:18px;
+	margin-bottom:15px;
+	text-transform:uppercase;
+	line-height:34px;
+	color:#282828;
+}
+#getCodeConsole { 
+	-moz-border-radius: 5px;
+	border-radius: 5px;
+	-moz-box-shadow:0 0 5px #484848;
+	background:none repeat scroll 0 0 #F4F4F4;
+	border:1px solid #FFFFFF;
+	margin:0 0 20px;
+	padding:15px 15px 28px;
+}
+#getCodeConsole .close {
+	display: block;
+	position: absolute;
+	top: 12px;
+	right: 12px;
+	cursor: pointer;
+}

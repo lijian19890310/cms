@@ -1,0 +1,291 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<title>{if isset($SEO['title']) && !empty($SEO['title'])}{$SEO['title']}{/if}{$SEO['site_title']}</title>
+	<meta name="keywords" content="{$SEO['keyword']}">
+	<meta name="description" content="{$SEO['description']}">
+	<script src="{JS_PATH}jquery.min.js"></script>
+	<script type="text/javascript" language="javascript" src="{JS_PATH}dropdown.class.demo.js"></script>
+	<script type="text/javascript" language="javascript" src="{JS_PATH}layout.class.js"></script>
+	<script type="text/javascript" language="javascript" src="{JS_PATH}slides.min.jquery.js.js"></script>
+	<script>
+		$(function(){
+			$('#slides').slides({
+				preload: true,
+				preloadImage: '{IMG_PATH}loading.gif',
+				play: 5000,
+				pause: 2500,
+				hoverPause: true,
+				animationStart: function(current){
+					$('.caption').animate({
+						bottom:-35
+					},100);
+					if (window.console && console.log) {
+						// example return of current slide number
+						console.log('animationStart on slide: ', current);
+					};
+				},
+				animationComplete: function(current){
+					$('.caption').animate({
+						bottom:0
+					},200);
+					if (window.console && console.log) {
+						// example return of current slide number
+						console.log('animationComplete on slide: ', current);
+					};
+				},
+				slidesLoaded: function() {
+					$('.caption').animate({
+						bottom:0
+					},200);
+				}
+			});
+		});
+	</script>
+	<script>
+	function cswitchTab(ctabID, ctabboxDivID) {
+		for (i = 1; i < 4; i++) {
+			if ("ctab" + i == ctabID) {
+				document.getElementById(ctabID).className = "current";
+			} else {
+				document.getElementById("ctab" + i).className = "";
+			}
+			if ("ctabboxDiv" + i == ctabboxDivID) {
+				document.getElementById(ctabboxDivID).style.display = "";
+			} else {
+				document.getElementById("ctabboxDiv" + i).style.display ="none";
+			}
+		}
+	}
+	function nswitchTab(ntabID, ntabboxDivID) {
+		for (i = 1; i < 61; i++) {
+			if ("ntab" + i == ntabID) {
+				document.getElementById(ntabID).className = "n_current";
+			} else {
+				document.getElementById("ntab" + i).className = "";
+			}
+			if ("ntabboxDiv" + i == ntabboxDivID) {
+				document.getElementById(ntabboxDivID).style.display = "";
+			} else {
+				document.getElementById("ntabboxDiv" + i).style.display ="none";
+			}
+		}
+	}
+	</script>
+	<link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Tangerine">  
+	<link rel="stylesheet" href="{CSS_PATH}index.css" type="text/css" />
+	<link rel="stylesheet" href="{CSS_PATH}menu.css" type="text/css" />
+	<link rel="stylesheet" href="{CSS_PATH}menu.style.css" type="text/css" media="screen" />
+	<link rel="stylesheet" href="{CSS_PATH}global.css" type="text/css" media="screen" />
+</head>
+<body>
+<div class="header_w">
+	<div id="index_header" class="index_header">
+		<div id="logo" class="logo">
+			<a href="#">
+				<img src="http://zone.zmodo.com/cms/statics/images/logo.png">
+			</a>
+		</div>
+		<div id="header_menu" class="header_menu">
+		<!--menu.html-->
+			<div class="container">
+				<div class="menu style-1">
+					<ul class="menu">    
+						<li><a href="http://zone.zmodo.com/blog/" target="_blank">CEO博客</a>
+							<div class="mega-menu col-4">
+									<div class="col-2">
+										<h4>最新CEO博客</h4>
+										<ol>
+										{pc:get sql="SELECT post_title,guid FROM wp_posts where post_status='publish' order by ID DESC" cache="0" dbsource="blog" return="data"}
+										
+										{loop $data  $r}
+										{$k++}
+										{if $k==11}</ol></div><div class="col-2">
+										<h4>&nbsp;</h4>
+										<ol>{/if}
+										<li><a href="{$r['guid']}" title="{$r['post_title']}">{$r['post_title']}</a></li>
+										{/loop}
+										{/pc}
+										</ol>
+									</div>
+							</div>
+						</li>
+						<li><a href="http://sc.chinaz.com/?categories-archives/" class="arrow">公司周刊</a>
+						</li>
+					<li><a href="#">员工分享</a>
+						<div class="mega-menu col-3">
+							<div class="col-3">
+								<h4><a>最新员工分享</a></h4>
+									<ol>
+										{pc:content action="lists" catid="24" order="id DESC" thumb=""  num="10"  return="data" }
+										{loop $data $n $r}
+										<li><a href="{$r['url']}" title="{$r['title']}">{$r['title']}</a></li>
+										{/loop}
+										{/pc}
+									</ol>
+							</div>
+						</div>
+					</li>
+					<li><a href="#">员工关怀</a>
+						<div class="mega-menu col-3">
+							<div class="col-3">
+								<h4><a>最新员工关怀</a></h4>
+									<ol>
+										{pc:content action="lists" catid="26" order="id DESC"   num="10"  return="data" }
+										{loop $data $n $r}
+										<li><a href="{$r['url']}" title="{$r['title']}">{$r['title']}</a></li>
+										{/loop}
+										{/pc}
+									</ol>
+							</div>
+						</div>
+					</li>
+					<li><a href="#">MY ZONE</a></li>
+					</ul>
+				</div>
+			</div>
+
+		</div>
+	</div>
+</div>
+<!--{photo.html}-->
+<div class="bann_w">
+    <div class="bann">
+        <!--flash begin-->
+		<div id="example">
+			<img src="{IMG_PATH}new-ribbon.png" width="112" height="112" alt="New Ribbon" id="ribbon">
+			<div id="slides">
+				<div class="slides_container">
+					<div class="slide">
+						<a href="http://www.17sucai.com/" title="145.365 - Happy Bokeh Thursday! | Flickr - Photo Sharing!" target="_blank"><img src="{IMG_PATH}/slide-1.jpg" width="570" height="270" alt="Slide 1"></a>
+						<div class="caption" style="bottom:0">
+							<p>Happy Bokeh Thursday!</p>
+						</div>
+					</div>
+					<div class="slide">
+						<a href="http://www.17sucai.com/" title="Taxi | Flickr - Photo Sharing!" target="_blank"><img src="{IMG_PATH}/slide-2.jpg" width="570" height="270" alt="Slide 2"></a>
+						<div class="caption">
+							<p>Taxi</p>
+						</div>
+					</div>
+					<div class="slide">
+						<a href="http://www.17sucai.com/" title="Happy Bokeh raining Day | Flickr - Photo Sharing!" target="_blank"><img src="{IMG_PATH}/slide-3.jpg" width="570" height="270" alt="Slide 3"></a>
+						<div class="caption">
+							<p>Happy Bokeh raining Day</p>
+						</div>
+					</div>
+					<div class="slide">
+						<a href="http://www.17sucai.com/" title="We Eat Light | Flickr - Photo Sharing!" target="_blank"><img src="{IMG_PATH}/slide-4.jpg" width="570" height="270" alt="Slide 4"></a>
+						<div class="caption">
+							<p>We Eat Light</p>
+						</div>
+					</div>
+					<div class="slide">
+						<a href="http://www.17sucai.com/" title="&ldquo;I must go down to the sea again, to the lonely sea and the sky; and all I ask is a tall ship and a star to steer her by.&rdquo; | Flickr - Photo Sharing!" target="_blank"><img src="{IMG_PATH}/slide-5.jpg" width="570" height="270" alt="Slide 5"></a>
+						<div class="caption">
+							<p>&ldquo;I must go down to the sea again, to the lonely sea and the sky...&rdquo;</p>
+						</div>
+					</div>
+					<div class="slide">
+						<a href="http://www.17sucai.com/" title="twelve.inch | Flickr - Photo Sharing!" target="_blank"><img src="{IMG_PATH}/slide-6.jpg" width="570" height="270" alt="Slide 6"></a>
+						<div class="caption">
+							<p>twelve.inch</p>
+						</div>
+					</div>
+					<div class="slide">
+						<a href="http://www.17sucai.com/" title="Save my love for loneliness | Flickr - Photo Sharing!" target="_blank"><img src="{IMG_PATH}/slide-7.jpg" width="570" height="270" alt="Slide 7"></a>
+						<div class="caption">
+							<p>Save my love for loneliness</p>
+						</div>
+					</div>
+				</div>
+				<a href="#" class="prev"><img src="{IMG_PATH}/arrow-prev.png" width="24" height="43" alt="Arrow Prev"></a>
+				<a href="#" class="next"><img src="{IMG_PATH}/arrow-next.png" width="24" height="43" alt="Arrow Next"></a>
+			</div>
+			<img src="{IMG_PATH}/example-frame.png" width="739" height="341" alt="Example Frame" id="frame">
+		</div>
+        <!--flash end-->
+<!--banner.html-->
+<div class="banner_main color_wihte">
+	<ul id="ntabs" class="index_font color_r">
+	{pc:content action="category" catid="0" num="6" siteid="$siteid" order="listorder ASC" return="data5"}
+		{loop $data5 $k $v}
+			{$kkk++}
+			<li  id="ntab{$kkk}" {if ($kkk)==1}class="n_current"{/if}  onclick="nswitchTab('ntab{$kkk}','ntabboxDiv{$kkk}');this.blur();return false;"><a href="{$v[url]}">{$v[catname]}</a></li>
+		{/loop}
+	{/pc}
+	</ul>
+
+</div>
+	<center>
+		<div class="sencod_banner">
+			{pc:content action="category" catid="0" num="6" siteid="$siteid" order="listorder ASC" return="data6"}
+				{loop $data6 $ksb $v}
+					{$kk++}
+				<ul id="ntabboxDiv{$kk}" {if $kk!=1}style="display:none;"{/if}>
+				{pc:content action="category" catid="$ksb" num="20" siteid="$siteid" order="listorder ASC"}
+					{loop $data $t $r} 
+					<li><a href="{$r[url]}">{$r[catname]}</a></li>
+					{/loop}
+				</ul>
+				{/pc}
+				{/loop}
+			{/pc}
+		</div>
+	</center>
+<div class="clear"></div>
+<!--{index.html}-->
+<div class="index_main">
+	<div  class="main_left">
+		<ul id="tabs" class="index_font color_r">
+			<li id="ctab1" class="current" onclick="cswitchTab('ctab1','ctabboxDiv1');this.blur();return false;">公司活动</li>
+			<li id="ctab2" onclick="cswitchTab('ctab2','ctabboxDiv2');this.blur();return false;">公司公告</li>
+			<li id="ctab3" onclick="cswitchTab('ctab3','ctabboxDiv3');this.blur();return false;">大家评论</li>
+		</ul>
+	</div>
+	<div class="main_right">
+					<div id="ctabboxDiv1" >
+						<div class="index_news">最新活动</div>
+						<div class="index_content">
+						{pc:content action="lists" catid="7" num="20" order="id DESC" return="data7"}
+						<ul>
+							{loop $data7 $v}
+							<li class="list"><p class="index_article"><a href="{$v['url']}" target="_blank" title="{$v['title']}">{$v['title']}</a></p></li>
+							{/loop}
+						</ul>
+						{/pc}
+						</div>
+					</div>
+					<div id="ctabboxDiv2" style="display:none;">
+						<div class="index_news">最新公告</div>
+						<div class="index_content">
+						{pc:announce action="lists" siteid="1"  num="10"  return="data" }
+						<ul>
+							{loop $data $vs}
+							<li class="list"><p class="index_article"><a href="{$vs['url']}" target="_blank" title="{$vs['title']}">{$vs['title']}</a></p></li>
+							{/loop}
+						</ul>
+						{/pc}
+						</div>
+					</div>
+					<div id="ctabboxDiv3" style="display:none;">
+						<div class="index_news">最新评论</div>
+						<div class="index_content">
+						{pc:comment action="bang"  num="20"  return="data" }
+						<ul>
+				
+							{loop $data $vb}
+							<li class="list"><p class="index_article"><a href="{$vb['url']}" target="_blank" title="{$vb['title']}">{$vb['title']}</a></p></li>
+							{/loop}
+						</ul>
+						{/pc}
+						</div>
+					</div>
+		</div>
+</div>
+<div class="footer">
+© 2012 Zmodo.com. All Rights Reserved.
+</div>
+</body>
+</html>

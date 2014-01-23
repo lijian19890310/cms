@@ -1,0 +1,75 @@
+{template "content","header"}
+<link type="text/css" href="{siteurl($siteid)}/statics/css/zmodo/jquery.treeview.css" rel="stylesheet" />
+<script type="text/javascript" src="{siteurl($siteid)}/statics/js/treeview/jquery.treeview.js"></script>
+<!--main-->
+<div class="main">
+	<div class="col">
+    	<div class="crumbs"><a href="{siteurl($siteid)}">首页</a><span> > </span>{catpos($catid)} 栏目列表</div>
+    	{pc:content action="lists" catid="$catid" num="25" order="id DESC" page="$page"}
+        <ul class="list lh24 f14">
+{loop $data $r}
+	<li><span class="rt">{date('Y-m-d H:i:s',$r[inputtime])}</span>·<a href="{$r[url]}" target="_blank"{title_style($r[style])}>{$r[title]}</a></li>
+	{if $n%5==0}<li class="bk20 hr"></li>{/if}
+{/loop}
+        </ul>
+        <div id="pages" class="text-c">
+		{pc:content action="category" catid="27" num="25" siteid="$siteid" order="listorder ASC"}
+               <div class="treeview_box">
+               		 <ul class="lev_1 treeview">
+                    {loop $data $k $v}
+                    <li>{pc:content action="category" catid="$k" num="10" siteid="$siteid" order="listorder ASC"}
+			{php if(count($data)):}
+			<span>{$v[catname]}【第一级】</span>
+                        <ul class="lev_2">
+                            	{loop $data $t $r}  
+					<li>{pc:content action="category" catid="$t" num="10" siteid="$siteid" order="listorder ASC"}
+						{php if(count($data)):}
+						<div class="hitarea expandable-hitarea"></div><span>{$r[catname]}【第二级】</span>
+						<ul class="lev_3">
+							{loop $data $a $p}
+							<li>
+							{pc:content action="category" catid="$a" num="10" siteid="$siteid" order="listorder ASC"}
+							{php if(count($data)):}
+							<div class="hitarea expandable-hitarea"></div><span>{$p[catname]}【第三级】</span>
+							<ul class="lev_4">
+								{loop $data $b $c}
+								<li>
+								<a href="{$c[url]}">{$c[catname]}【第四级】</a>
+								</li> 
+								{/loop}
+							
+							</ul>
+							{php else:}
+							<a href="{$p[url]}">{$p[catname]}【第三级】</a>
+							{php endif;}
+							{/pc}
+							{/loop}
+							
+						</ul>
+						{php else:}
+						<a href="{$r[url]}">{$r[catname]}【第二级】</a>
+						{php endif;}
+						{/pc}
+					    					
+					</li> 
+			    	{/loop}
+                        </ul>
+			{php else:}
+			<a href="{$v[url]}">{$v[catname]}【第一级】</a>
+			{php endif;}
+			{/pc}
+                    </li>
+                    {/loop}
+                </ul>
+               </div>
+                {/pc}
+                {php echo runhook('glogal_menu')}
+	</div>
+{/pc}
+  </div>
+    <div class="col-auto">
+        <div class="bk10"></div>
+        <div class="bk10"></div>
+    </div>
+</div>
+{template "content","footer"}

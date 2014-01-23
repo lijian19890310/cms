@@ -1,0 +1,30 @@
+<?php
+
+	require_once(dirname(__FILE__).'/class.phpmailer.php');
+	$mail = new PHPMailer(); // defaults to using php "mail()"
+	$mail->IsSMTP();
+	$mail->Host = "smtp.163.com";			// SMTP 服务器  
+	$mail->SMTPAuth = true;            		// 打开SMTP 认证  
+	$mail->Username = "13760147548@163.com"; 	// 用户名
+	$mail->Password = "1234qwer";          	// 密码
+	$mail->Port=25;
+	$mail->From = "13760147548@163.com"; //邮件发送者email地址
+	$mail->FromName = "zmodo";
+	$mail->AddAddress("851552123@qq.com", "M");//收件人地址，可以替换成任何想要接收邮件的email信箱,格式是AddAddress("收件人email","收件人姓名")
+	$mail->AddAddress("13760147548@163.com", "M");	
+	$mail->CharSet = "utf8";// 字符设置
+	$mail->IsHTML(true); // set email format to HTML //是否使用HTML格式
+
+	$mail->Subject = "PHPMailer测试邮件"; //邮件标题
+	$mail->Body = "Hello,这是测试邮件"; //邮件内容
+	$mail->AltBody = "This is the body in plain text for non-HTML mail clients"; //附加信息，可以省略
+	if(!$mail->Send())
+	{
+	echo "邮件发送失败. <p>";
+	echo "错误原因: " . $mail->ErrorInfo;
+	exit;
+	}else{
+	echo $mail->ErrorInfo;
+	echo"发送发OK！";
+	}
+?>

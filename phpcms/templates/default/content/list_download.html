@@ -1,0 +1,34 @@
+{template "content","header"}
+<div class="main">
+    
+    
+<div class="crumbs"><a href="{siteurl($siteid)}">首页</a><span> &gt; </span>{catpos($catid)}</div>
+		{loop subcat($catid) $v}
+        <div class="box cat-area">
+        		<h5 class="title-1"><a href={$v[url]} class="titless">{$v[catname]}</a>	<a href="{$v[url]}" class="more">更多>></a></h5>
+             <div class="article_show">
+                <ul>
+                {pc:content action="lists" catid="$v[catid]" num="5" order="id DESC"}
+					{loop $data $v}
+						<li><a href="{$v[url]}" target="_blank"{title_style($v[style])}>{$v[title]}</a></li>
+					{/loop}
+				{/pc}
+                </ul>
+            </div>
+        </div>
+	{/loop}
+		{pc:content action="lists" catid="$catid" num="15" order="id DESC" page="$page"}
+        <div class="box cat-area">
+		<div class="article_show">
+		<ul>
+		{loop $data $r}
+              <li><a target="_blank" href="{$r[url]}" >{$r[title]}</a><span class="rt">{date('Y-m-d H:i:s',$r[inputtime])}</span></li>
+		{/loop}	
+		</ul>
+		</div>
+		</div>
+        <!--pages-->
+        <div class="text-c mg_t20" id="pages">{$pages}</div>
+		{/pc}
+</div>
+{template "content","footer"}

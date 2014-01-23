@@ -1,0 +1,55 @@
+{template "content","header"}
+<!--main-->
+<div class="main">
+    
+    
+<div class="crumbs"><a href="{siteurl($siteid)}">首页</a><span> &gt; </span>{catpos($catid)}</div>
+
+
+	{loop subcat($catid) $v}
+	{php if($v['type']!=0) continue;}
+        <div class="box cat-area">        		
+			{php if($v[catid]!=27){}
+        	<h5 class="title-1"><a href={$v[url]} class="titless">{$v[catname]}</a><a href="{$v[url]}" class="more">更多>></a></h5>
+			{php }else{}
+			<h5 class="title-1" style="color:black">{$v[catname]}</h5>
+			{php }}		
+			<div class="article_show">
+					{php if($v[catid]!=27){}
+					<ul>
+						
+						{pc:content action="lists"	catid="$v[catid]" num="5" order="id DESC"}
+							{loop $data $v}
+								<li><a href="{$v[url]}" target="_blank"{title_style($v[style])}>{$v[title]}</a></li>
+							{/loop}
+						{/pc}
+						
+					</ul>
+					{php }else{}
+						{pc:content action="category" catid="$v[catid]" num="20" siteid="1" order="listorder ASC"}
+						{loop $data $t $r}
+						
+							{pc:content action="lists"	catid="$r[catid]" num="5" order="id DESC"}
+								<ul style="float:left;width:330px;height:250px;">
+								<a href="{$r[url]}"><b>{$r[catname]}</b></a><a href="{$r[url]}" class="more" style="padding-right:30px;"><B>更多>></B></a>
+								{loop $data $v}
+								
+									<li><a href="{$v[url]}" target="_blank"{title_style($v[style])}>{$v[title]}</a></li>
+								
+								{/loop}
+								</ul>
+							{/pc}
+						{/loop}
+						{/pc}					
+					{php }}
+				</div>
+				
+				{php if($catid==8){}
+					<h5 class="title-1"><a href="http://zone.zmodo.com/cms/index.php?m=content&c=index&a=lists&catid=63" class="titless">行业动态</a></h5>
+				{php }}
+        </div>
+	{/loop}
+  </div>
+
+
+{template "content","footer"}

@@ -1,0 +1,17 @@
+{template "content","header"}
+<!--main-->
+<div class="index_main">
+    	<div class="crumbs"><a href="{siteurl($siteid)}">首页</a><span> > </span>{catpos($catid)} 列表</div>
+		<div class="box">
+			{pc:content action="lists" catid="$catid" num="25" order="id DESC" page="$page"}
+					<ul class="article_show">
+					{loop $data $r}
+					<li><a href="{$r[url]}" target="_blank"{title_style($r[style])}>{$r[title]}</a><span class="rt">{date('Y-m-d H:i:s',$r[inputtime])}</span></li>
+					{/loop}
+					</ul>
+				<div id="pages" class="text-c">{$pages}</div>
+			{/pc}
+		</div>
+
+</div>
+{template "content","footer"}

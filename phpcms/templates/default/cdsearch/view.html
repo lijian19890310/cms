@@ -1,0 +1,240 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=7" />
+<script src="http://zone.zmodo.com/new_cms/statics/js/jquery.min.js"></script>
+<title>智美达的全球化 - 公司周刊 - ZMODO 内网</title>
+<style>
+body,html,input{font:12px/1.55 tahoma,arial,"微软雅黑","宋体";}
+.wtwind{width:300px;}
+h1{font-size:68px;color:#1A75CF;margin:0;}
+h5{font-size:56px;color:#fff;padding-bottom:10px;margin:0;}
+#content{}
+#content img {border: 1px solid #d4d4d4;;margin:5px;padding:5px;max-height:700px;max-width:700px;margin:0px auto;}
+#news	li{list-style: none;}
+#content li{list-style: none;}
+#content a{clear: both;color: #222;font-size: 26px;font-weight: bold;line-height: 1.5em;}
+#news a{clear: both;color: #222;font-size: 26px;font-weight: bold;line-height: 1.5em;}
+</style>
+<script type="text/javascript"> 
+(function ($) {
+    $.fn.marquee = function (klass) {
+        var newMarquee = [],
+            last = this.length;
+ 
+        // works out the left or right hand reset position, based on scroll
+        // behavior, current direction and new direction
+        function getReset(newDir, marqueeRedux, marqueeState) {
+            var behavior = marqueeState.behavior, width = marqueeState.width, dir = marqueeState.dir;
+            var r = 0;
+            if (behavior == 'alternate') {
+                r = newDir == 1 ? marqueeRedux[marqueeState.widthAxis] - (width*2) : width;
+            } else if (behavior == 'slide') {
+                if (newDir == -1) {
+                    r = dir == -1 ? marqueeRedux[marqueeState.widthAxis] : width;
+                } else {
+                    r = dir == -1 ? marqueeRedux[marqueeState.widthAxis] - (width*2) : 0;
+                }
+            } else {
+                r = newDir == -1 ? marqueeRedux[marqueeState.widthAxis] : 0;
+            }
+            return r;
+        }
+ 
+        // single "thread" animation
+        function animateMarquee() {
+            var i = newMarquee.length,
+                marqueeRedux = null,
+                $marqueeRedux = null,
+                marqueeState = {},
+                newMarqueeList = [],
+                hitedge = false;
+                
+            while (i--) {
+                marqueeRedux = newMarquee[i];
+                $marqueeRedux = $(marqueeRedux);
+                marqueeState = $marqueeRedux.data('marqueeState');
+                
+                if ($marqueeRedux.data('paused') !== true) {
+                    // TODO read scrollamount, dir, behavior, loops and last from data
+                    marqueeRedux[marqueeState.axis] += (marqueeState.scrollamount * marqueeState.dir);
+ 
+                    // only true if it's hit the end
+                    hitedge = marqueeState.dir == -1 ? marqueeRedux[marqueeState.axis] <= getReset(marqueeState.dir * -1, marqueeRedux, marqueeState) : marqueeRedux[marqueeState.axis] >= getReset(marqueeState.dir * -1, marqueeRedux, marqueeState);
+                    
+                    if ((marqueeState.behavior == 'scroll' && marqueeState.last == marqueeRedux[marqueeState.axis]) || (marqueeState.behavior == 'alternate' && hitedge && marqueeState.last != -1) || (marqueeState.behavior == 'slide' && hitedge && marqueeState.last != -1)) {                        
+                        if (marqueeState.behavior == 'alternate') {
+                            marqueeState.dir *= -1; // flip
+                        }
+                        marqueeState.last = -1;
+ 
+                        $marqueeRedux.trigger('stop');
+ 
+                        marqueeState.loops--;
+                        if (marqueeState.loops === 0) {
+                            if (marqueeState.behavior != 'slide') {
+                                marqueeRedux[marqueeState.axis] = getReset(marqueeState.dir, marqueeRedux, marqueeState);
+                            } else {
+                                // corrects the position
+                                marqueeRedux[marqueeState.axis] = getReset(marqueeState.dir * -1, marqueeRedux, marqueeState);
+                            }
+ 
+                            $marqueeRedux.trigger('end');
+                        } else {
+                            // keep this marquee going
+                            newMarqueeList.push(marqueeRedux);
+                            $marqueeRedux.trigger('start');
+                            marqueeRedux[marqueeState.axis] = getReset(marqueeState.dir, marqueeRedux, marqueeState);
+                        }
+                    } else {
+                        newMarqueeList.push(marqueeRedux);
+                    }
+                    marqueeState.last = marqueeRedux[marqueeState.axis];
+ 
+                    // store updated state only if we ran an animation
+                    $marqueeRedux.data('marqueeState', marqueeState);
+                } else {
+                    // even though it's paused, keep it in the list
+                    newMarqueeList.push(marqueeRedux);                    
+                }
+            }
+ 
+            newMarquee = newMarqueeList;
+            
+            if (newMarquee.length) {
+                setTimeout(animateMarquee, 25);
+            }            
+        }
+        
+        // TODO consider whether using .html() in the wrapping process could lead to loosing predefined events...
+        this.each(function (i) {
+            var $marquee = $(this),
+                width = $marquee.attr('width') || $marquee.width(),
+                height = $marquee.attr('height') || $marquee.height(),
+                $marqueeRedux = $marquee.after('<div ' + (klass ? 'class="' + klass + '" ' : '') + 'style="display: block-inline; width: ' + width + 'px; height: ' + height + 'px; overflow: hidden;"><div style="float: left; white-space: nowrap;">' + $marquee.html() + '</div></div>').next(),
+                marqueeRedux = $marqueeRedux.get(0),
+                hitedge = 0,
+                direction = ($marquee.attr('direction') || 'left').toLowerCase(),
+                marqueeState = {
+                    dir : /down|right/.test(direction) ? -1 : 1,
+                    axis : /left|right/.test(direction) ? 'scrollLeft' : 'scrollTop',
+                    widthAxis : /left|right/.test(direction) ? 'scrollWidth' : 'scrollHeight',
+                    last : -1,
+                    loops : $marquee.attr('loop') || -1,
+                    scrollamount : $marquee.attr('scrollamount') || this.scrollAmount || 2,
+                    behavior : ($marquee.attr('behavior') || 'scroll').toLowerCase(),
+                    width : /left|right/.test(direction) ? width : height
+                };
+            
+            // corrects a bug in Firefox - the default loops for slide is -1
+            if ($marquee.attr('loop') == -1 && marqueeState.behavior == 'slide') {
+                marqueeState.loops = 1;
+            }
+ 
+            $marquee.remove();
+            
+            // add padding
+            if (/left|right/.test(direction)) {
+                $marqueeRedux.find('> div').css('padding', '0 ' + width + 'px');
+            } else {
+                $marqueeRedux.find('> div').css('padding', height + 'px 0');
+            }
+            
+            // events
+            $marqueeRedux.bind('stop', function () {
+                $marqueeRedux.data('paused', true);
+            }).bind('pause', function () {
+                $marqueeRedux.data('paused', true);
+            }).bind('start', function () {
+                $marqueeRedux.data('paused', false);
+            }).bind('unpause', function () {
+                $marqueeRedux.data('paused', false);
+            }).data('marqueeState', marqueeState); // finally: store the state
+            
+            // todo - rerender event allowing us to do an ajax hit and redraw the marquee
+ 
+            newMarquee.push(marqueeRedux);
+ 
+            marqueeRedux[marqueeState.axis] = getReset(marqueeState.dir, marqueeRedux, marqueeState);
+            $marqueeRedux.trigger('start');
+            
+            // on the very last marquee, trigger the animation
+            if (i+1 == last) {
+                animateMarquee();
+            }
+        });            
+ 
+        return $(newMarquee);
+    };
+}(jQuery));
+</script>
+    <script type="text/javascript">
+    <!--
+    $(function () {
+        // basic version is: $('div.demo marquee').marquee() - but we're doing some sexy extras
+        
+        $('div#content marquee').marquee('pointer').mouseover(function () {
+            $(this).trigger('stop');
+        }).mouseout(function () {
+            $(this).trigger('start');
+        }).mousemove(function (event) {
+            if ($(this).data('drag') == true) {
+                this.scrollLeft = $(this).data('scrollX') + ($(this).data('x') - event.clientX);
+            }
+        }).mousedown(function (event) {
+            $(this).data('drag', true).data('x', event.clientX).data('scrollX', this.scrollLeft);
+        }).mouseup(function () {
+            $(this).data('drag', false);
+        });
+    });
+    //-->
+    </script>
+</head>
+<body style="width: 1920px;height: 1080px;margin: 0px;background-image: url(zmodo.jpg);overflow: hidden;opsition:static; ">
+<div style="width:1920px; height:200px;">
+	<div style="width:460px;height:200px;float:left;text-align:center;">
+		<h5>2:00 PM</h5>
+		<h5>July 12, 2013</h5>
+	</div>
+	<div style="width:1000px;height:200px;float:left;text-align:center;">
+		<h1>ZMODO Technology Corporation</h1>
+	</div>
+	<div style="width:460px;height:200px;float:left;">
+		<iframe name="weather_inc" src="http://www.tianqi.com/index.php?c=code&id=7"  width="400px" height="140" frameborder="0" marginwidth="0" marginheight="0" scrolling="no"></iframe>
+		
+	</div>
+</div>
+<div style="width:1920px;height:880px;">
+	<div style="width:440px;height:880px;float:left;margin-right:20px;" id="news">
+		{pc:content action="lists" catid="6" num="20" order="id DESC" return="data7"}
+		<ul>
+			{loop $data7 $v}
+			<li class="list"><p class="index_article"><a href="{$v['url']}" target="_blank" title="{$v['title']}">{$v['title']}</a></p></li>
+			{/loop}
+		</ul>
+		{/pc}
+	</div>
+
+	<div style="width:1000px;height:880px;float:left;overflow:hidden;" id="content" " >
+	 <marquee behavior="scroll" direction="up"  height="880" width="1000">
+		{pc:get sql="SELECT post_content,post_title,guid FROM wp_posts where post_status='publish' order by ID DESC"  num="10" dbsource="blog" return="data"}								
+		
+				{loop $data  $r}
+				
+				<li><p><a href="{$r['guid']}" title="{$r['post_title']}">{$r['post_title']}</a></p>
+					<p>{$r['post_content']}</p>
+				</li>				
+			{/loop}
+
+		{/pc}
+	</marquee>
+	</div>
+		
+	<div style="width:460px;height:880px;float:left;">
+		<iframe name="weather_inc" src="{APP_PATH}index.php?m=cdsearch&c=index&a=birthday"  width="278" height="240" frameborder="0" marginwidth="0" marginheight="0" scrolling="no"></iframe>
+	</div>
+</div>
+
+</body>
+</html>

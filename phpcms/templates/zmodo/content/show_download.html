@@ -1,0 +1,64 @@
+{template "content","header"}
+<style>
+.title_show{ text-align:center;font-size:22px;font-weight:bold;}
+.summary{width:80%;margin-left:auto;margin-right:auto;background-color: #F6FAFD;
+border: 1px solid #DCDDDD;
+font-size: 14px;
+line-height: 23px;
+padding: 10px;
+margin-bottom:10px;
+text-align: justify;
+text-indent: 2em;}
+.article_content{font-size:16px;}
+</style>
+<link href="{CSS_PATH}download.css" rel="stylesheet" type="text/css" />
+<div class="main">
+    <!--left_bar-->
+    <div class="col-left">
+        <div class="crumbs"><a href="{siteurl($siteid)}">首页</a><span> &gt; </span>{catpos($catid)}{$title}</div>
+        <div class="box boxsbg">
+            <div class="contents">
+
+                <div class="title_show">
+                   {$title}
+                </div>
+                <div class="down_intro">{$content}</div>
+                <h5 class="tit">下载地址(更新时间：{$updatetime})</h5>
+                <div class="down_address divl wrap">
+                    <ul class="l xz_a wrap blue">
+                        {loop $downfile $r}
+                        <li>{$r}</li>
+                        {/loop}
+                        {loop $downfiles $r}
+                        <li>{$r}</li>
+                        {/loop}
+                    </ul>
+                    <div class="ad"><script language="javascript" src="{APP_PATH}index.php?m=poster&c=index&a=show_poster&id=12"></script></div>
+                </div>
+            </div>
+        </div>
+        <div class="bk10"></div>
+      <div class="Article-Tool">
+
+	  </div>
+        <!--评论-->
+        <div class="bk10"></div>
+        {if $allow_comment && module_exists('comment')}
+        <iframe src="{APP_PATH}index.php?m=comment&c=index&a=init&commentid={id_encode("content_$catid",$id,$siteid)}&iframe=1" width="100%" height="100%" id="comment_iframe" frameborder="0" scrolling="no" onLoad="iFrameHeight()"></iframe>
+        {/if}
+    </div>
+    <!--right_bar-->
+</div>
+
+<div class="bk10"></div>
+<script type="text/javascript" language="javascript"> 
+function iFrameHeight() { 
+var ifm= document.getElementById("comment_iframe"); 
+var subWeb = document.frames ? document.frames["comment_iframe"].document : ifm.contentDocument; 
+if(ifm != null && subWeb != null) { 
+ifm.height = subWeb.body.scrollHeight; 
+} 
+} 
+</script> 
+<script language="JavaScript" src="{APP_PATH}api.php?op=count&id={$id}&modelid={$modelid}"></script>
+{template "content","footer"}

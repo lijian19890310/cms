@@ -1,0 +1,87 @@
+{template "content","header"}
+<link type="text/css" href="{siteurl($siteid)}/statics/css/zmodo/jquery.treeview.css" rel="stylesheet" />
+<script type="text/javascript" src="{siteurl($siteid)}/statics/js/treeview/jquery.treeview.js"></script>
+<script type="text/javascript">
+	/*$(function() {
+		$("#tree").treeview({
+			collapsed: true,
+			animated: "medium",
+			control:"#sidetreecontrol",
+			prerendered: true,
+			persist: "location"
+		});
+	})*/	
+</script>
+<style type="text/css">
+.tree_col{ display:inline; float:left; width:30%; margin:0 15px;}
+</style>
+<!--main-->
+<div class="index_main">
+	<div class="col">
+    	<div class="crumbs"><a href="{siteurl($siteid)}">首页</a><span> > </span>{catpos($catid)} 栏目列表</div>
+    	{pc:content action="lists" catid="$catid" num="25" order="id DESC" page="$page"}
+        <ul class="list lh24 f14">
+{loop $data $r}
+	<li><span class="rt">{date('Y-m-d H:i:s',$r[inputtime])}</span>·<a href="{$r[url]}" target="_blank"{title_style($r[style])}>{$r[title]}</a></li>
+	{if $n%5==0}<li class="bk20 hr"></li>{/if}
+{/loop}
+        </ul>
+        <div id="pages" class="text-c">
+		{pc:content action="category" catid="27" num="25" siteid="$siteid" order="listorder ASC"}
+               <div class="treeview_box">
+                    {loop $data $k $v}
+                    <div class="tree_col">{pc:content action="category" catid="$k" num="10" siteid="$siteid" order="listorder ASC"}
+			{php if(count($data)):}
+			<p class="tree_tit">{$v[catname]}</p>
+                        <ul class="lev_2 treeview">
+                            	{loop $data $t $r}  
+					<li>{pc:content action="category" catid="$t" num="10" siteid="$siteid" order="listorder ASC"}
+						{php if(count($data)):}
+						<div class="hitarea expandable-hitarea"></div><span>{$r[catname]}</span>
+						<ul class="lev_3">
+							{loop $data $a $p}
+							<li>
+							{pc:content action="category" catid="$a" num="10" siteid="$siteid" order="listorder ASC"}
+							{php if(count($data)):}
+							<div class="hitarea expandable-hitarea"></div><span>{$p[catname]}</span>
+							<ul class="lev_4">
+								{loop $data $b $c}
+								<li>
+								<a href="{$c[url]}">{$c[catname]}</a>
+								</li> 
+								{/loop}
+							
+							</ul>
+							{php else:}
+							<a href="{$p[url]}">{$p[catname]}</a>
+							{php endif;}
+							{/pc}
+							{/loop}
+							
+						</ul>
+						{php else:}
+						<a href="{$r[url]}">{$r[catname]}</a>
+						{php endif;}
+						{/pc}
+					    					
+					</li> 
+			    	{/loop}
+                        </ul>
+			{php else:}
+			<a href="{$v[url]}">{$v[catname]}</a>
+			{php endif;}
+			{/pc}
+                    </div>
+                    {/loop}
+               </div>
+                {/pc}
+                {php echo runhook('glogal_menu')}
+	</div>
+{/pc}
+  </div>
+    <div class="col-auto">
+        <div class="bk10"></div>
+        <div class="bk10"></div>
+    </div>
+</div>
+{template "content","footer"}

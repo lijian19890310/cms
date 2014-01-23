@@ -1,0 +1,244 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<title>{if isset($SEO['title']) && !empty($SEO['title'])}{$SEO['title']}{/if}{$SEO['site_title']}</title>
+	<meta name="keywords" content="{$SEO['keyword']}">
+	<meta name="description" content="{$SEO['description']}">
+	<script src="{JS_PATH}jquery.min.js"></script>
+	<script type="text/javascript" language="javascript" src="{JS_PATH}slides.min.jquery.js"></script>
+	<script type="text/javascript" language="javascript" src="{JS_PATH}header_index.js"></script>
+	<link rel="stylesheet" href="{CSS_PATH}index.css" type="text/css" />
+	<link rel="stylesheet" href="{CSS_PATH}menu.css" type="text/css" />
+	<link rel="stylesheet" href="{CSS_PATH}menu.style.css" type="text/css" media="screen" />
+	<link rel="stylesheet" href="{CSS_PATH}global.css" type="text/css" media="screen" />
+</head>
+<body id="top">
+<div class="header_w">
+	<div id="index_header" class="index_header">
+		<div id="logo" class="logo">
+			<a href="#">
+				<img src="http://zone.zmodo.com/cms/statics/images/logo.png">
+			</a>
+		</div>
+		<div id="header_menu" class="header_menu">
+		<!--menu.html-->
+			<div class="container">
+
+				<div class="menu style-1">
+					<ul class="menu">    
+						<li><a id="to_blog" href="http://zone.zmodo.com/blog/" target="_blank">CEO博客</a>
+							<img src='{IMG_PATH}NEW.png' id='blog_new_notice' style='display:none;left:70px;position: absolute;top: -10px;'/>
+							<div class="mega-menu col-3" id="mega_menu1">
+									<div class="col-3">
+										<ol>
+										{pc:get sql="SELECT post_title,guid FROM wp_posts where post_status='publish' order by ID DESC" cache="0" num="10" dbsource="blog" return="data"}								
+										{loop $data  $r}
+										<li><a href="{$r['guid']}" title="{$r['post_title']}">{$r['post_title']}</a></li>
+										{/loop}
+										{/pc}
+										{pc:get sql="SELECT COUNT(ID) as blog_qty FROM wp_posts where post_status='publish' order by post_date" cache="0" dbsource="blog" return="data"}
+											<script type="text/javascript" src="{JS_PATH}jq_cookie.js"></script>
+											<script type="text/javascript">
+												$(document).ready(function(){
+													$("#to_blog").click(function(){
+														var date = new Date();  
+														date.setTime(date.getTime() + (7 * 24 * 60 * 60 *1000));  
+														$.cookie('blog_info_qty', {$data[0][blog_qty]}, { path: '/cms', expires: date });  
+													});
+													
+													if($.cookie('blog_info_qty') < {$data[0][blog_qty]}){
+														$("#blog_new_notice").css('display','block');
+													}
+												});
+											</script>   
+										{/pc}
+										</ol>
+									</div>
+							</div>
+						</li>
+						<li><a id="gszk" href="{APP_PATH}index.php?m=content&c=index&a=lists&catid=67" >公司周刊</a>
+						<img src='{IMG_PATH}NEW.png' id='new_gszk' style='display:none;left:185px;position: absolute;top: -10px;'/>
+						{pc:content action="lists" catid="67" order="id DESC" thumb=""  num="10"  return="data" }
+								{if !empty($data)}
+								<div class="mega-menu col-3" id="mega_menu2">
+								<div class="col-3">
+									<ol>
+										{loop $data $n $r}
+										{php $kkkkk=$n}
+										<li><a href="{$r['url']}" title="{$r['title']}">{$r['title']}</a></li>
+										{/loop}
+									</ol>
+									</div>
+									</div>
+								<script type="text/javascript">
+								$(document).ready(function(){
+									$("#gszk").click(function(){
+									var date = new Date();  
+									date.setTime(date.getTime() + (7 * 24 * 60 * 60 *1000));  
+									$.cookie('gszk', {$data[$kkkkk][id]}, { path: '/cms', expires: date });  
+									});
+									if($.cookie('gszk') < {$data[$kkkkk][id]}){
+									$("#new_gszk").css('display','block');
+									}
+								});
+								</script>   
+								{/if}
+								{/pc}
+						</li>
+					<li><a id="ygfx" href="{APP_PATH}index.php?m=content&c=index&a=lists&catid=24">ZMODO大学</a>
+						<img src='{IMG_PATH}NEW.png' id='new_ygfx' style='display:none;left:330px;position: absolute;top: -10px;'/>		
+								{pc:content action="lists" catid="24" order="id DESC" thumb=""  num="10"  return="data" }
+								
+								{if !empty($data)}
+								<div class="mega-menu col-3" id="mega_menu3">
+								<div class="col-3">
+									<ol>
+										{loop $data $n $r}
+										{php $kkkkkk=$n}
+										<li><a href="{$r['url']}" title="{$r['title']}">{$r['title']}</a></li>
+										{/loop}
+									</ol>
+									</div>
+									</div>
+								<script type="text/javascript">
+								$(document).ready(function(){
+									$("#ygfx").click(function(){
+									var date = new Date();  
+									date.setTime(date.getTime() + (7 * 24 * 60 * 60 *1000));  
+									$.cookie('ygfx', {$data[$kkkkkk][id]}, { path: '/cms', expires: date });  
+									});
+									if($.cookie('ygfx') < {$data[$kkkkkk][id]}){
+									$("#new_ygfx").css('display','block');
+									}
+								});
+								</script>   
+								{/if}
+								{/pc}
+					</li>
+					<li><a id="yggh" href="{APP_PATH}index.php?m=content&c=index&a=lists&catid=66">员工关怀</a>
+					<img src='{IMG_PATH}NEW.png' id='new_ygghx' style='display:none;left:445px;position: absolute;top: -10px;'/>		
+
+								{pc:content action="lists" catid="66" order="id DESC" thumb=""  num="10"  return="data" }
+								
+								{if !empty($data)}
+								<div class="mega-menu col-3" id="mega_menu4">
+								<div class="col-3">
+									<ol>
+										{loop $data $n $r}
+										{php $kkkkkkk=$n}
+										<li><a href="{$r['url']}" title="{$r['title']}">{$r['title']}</a></li>
+										{/loop}
+									</ol>
+									</div>
+									</div>
+								<script type="text/javascript">
+								$(document).ready(function(){
+									$("#yggh").click(function(){
+									var date = new Date();  
+									date.setTime(date.getTime() + (7 * 24 * 60 * 60 *1000));  
+									$.cookie('yggh', {$data[$kkkkkkk][id]}, { path: '/cms, expires: date });  
+									});
+									if($.cookie('yggh') < {$data[$kkkkkkk][id]}){
+									$("#new_ygghx").css('display','block');
+									}
+								});
+								</script>
+								{/if}
+								{/pc}
+						
+					</li>
+					<li><a href="#"><span style="color:#ff9933">My ZONE</span></a></li>
+					</ul>
+				</div>
+			</div>
+
+		</div>
+	</div>
+</div>
+<!--{photo.html}-->
+    <div class="bann" style="width:1000px;margin-left:auto;margin-right:auto;">
+        <!--flash begin-->
+        <div id="flashBg">
+            <div id="flashLine">
+                <div id="flash">
+                    <div id="flash1" class="item"  style="display:block;">
+                        <img src="{IMG_PATH}banner/bann_ipc.jpg" width="1000" >
+                    </div>
+                    <div id="flash2" class="item"  >
+                        <img src="{IMG_PATH}banner/bann_0605_en.jpg" width="1000" >
+                    </div>
+                    <div id="flash3" class="item"  >
+                        <img src="{IMG_PATH}banner/bann_poe.jpg" width="1000" >
+                    </div>
+                    <div id="flash4" class="item"  >
+                        <img src="{IMG_PATH}banner/bann0417b.jpg" width="1000" >
+                    </div>
+                    <div class="flash_bar">
+                        <div class="dq" id="f1" onclick="changeflash(1)"></div>
+                        <div class="no" id="f2" onclick="changeflash(2)"></div>
+                        <div class="no" id="f3" onclick="changeflash(3)"></div>
+						<div class="no" id="f4" onclick="changeflash(4)"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+	</div>
+        <script type="text/javascript">
+            var currentindex=1;
+            $("#flashBg").css("background-image",$("#flash1").attr("role"));
+            function changeflash(i) {
+                currentindex=i;
+                for (j=1;j<=4;j++){
+                    if (j==i)
+                    {$("#flash"+j).fadeIn("normal").css({
+                        "background-image": $("#flash"+j).attr("role")
+                    });
+                        $("#flash"+j).css("display","block");
+                        $("#f"+j).removeClass();
+                        $("#f"+j).addClass("dq");
+
+                    }
+                    else
+                    {$("#flash"+j).css("display","none");
+                        $("#f"+j).removeClass();
+                        $("#f"+j).addClass("no");}
+                }}
+            function startAm(){
+                timerID = setInterval("timer_tick()",5000);
+            }
+            function stopAm(){
+                clearInterval(timerID);
+            }
+            function timer_tick() {
+                currentindex=currentindex>=3?1:currentindex+1;
+                changeflash(currentindex);}
+            $(document).ready(function(){
+                $(".flash_bar div").mouseover(function(){stopAm();}).mouseout(function(){startAm();});
+                startAm();
+            });
+      </script>
+<!--banner.html-->
+
+<div class="banner_main color_wihte">
+	<ul id="ntabs" class="index_font color_r">
+	{pc:content action="category" catid="0" num="6" siteid="$siteid" order="listorder ASC" return="data5"}
+		{loop $data5 $k $v}
+			{$kkk++}
+			<li><a href="{$v[url]}">{$v[catname]}</a>
+				<div id="ntabboxDiv{$kkk}">
+				<span class="icon"></span>
+				{pc:content action="category" catid="$k" num="20" siteid="$siteid" order="listorder ASC"}
+					{loop $data $t $r}
+					<a href="{$r[url]}">{$r[catname]}</a>
+					{/loop}
+				{/pc}
+				</div>
+			</li>
+		{/loop}
+	{/pc}
+	</ul>
+</div>
+
+<div id="blank1" style="height:0px;"></div>
+<div class="clear"></div>

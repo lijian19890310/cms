@@ -1,0 +1,58 @@
+{template "content","header"}
+<link href="{CSS_PATH}download.css" rel="stylesheet" type="text/css" />
+<!--main-->
+<style>
+.index_main li {
+	list-style: none;
+}
+.more{
+	float:right;
+	font-szie:!4px;
+}
+.title-1{
+	font-size: 16px;
+	border-bottom: 1px solid #d4d4d4;
+	color: #f60;
+	font-weight: bold;
+	padding: 10px 0 10px 10px;
+}
+.title-2{
+	font-size:16px;
+	padding-top:10px;
+}
+</style>
+<div class="index_main">
+    <div class="main_lefts">
+        <div class="box">
+            <h5 class="title-2">下载分类</h5>
+            <ul class="side_menu">
+            	{loop subcat($catid) $r}
+            	<li><a href="{$r[url]}" title="{$r[catname]}">{$r[catname]}</a></li>
+            	{/loop}
+            </ul>
+        </div>
+    </div>
+	<!--left_bar-->
+	<div class="main_right">
+    <div class="crumbs"><a href="{siteurl($siteid)}">首页</a><span> > </span>{catpos($catid)}</div>
+        {loop subcat($catid,0) $r}
+        {php $num++}
+        <div  class=" cat-area">
+        		<h5 class="title-1"><a  href="{$r[url]}">{$r[catname]}</a><a class="more" href="{$r[url]}">更多></a></h5>
+             <div class="content">
+                <ul class="article_show">
+                {pc:content action="lists" catid="$r[catid]" num="5"  order="id DESC" return="info"}
+             	{loop $info $v}
+                	<li><span class="rt">{date('m-d',$v['inputtime'])}</span><a target="_blank" href="{$v['url']}" title="{$v['title']}">{str_cut($v['title'],38)}</a></li>
+              {/loop}
+              {/pc}
+                </ul>
+            </div>
+        </div>
+ 		{/loop}
+		 {/pc}       
+    </div>
+    <!--right_bar-->
+
+</div>
+{template "content","footer"}

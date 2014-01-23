@@ -1,0 +1,231 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<title>{if isset($SEO['title']) && !empty($SEO['title'])}{$SEO['title']}{/if}{$SEO['site_title']}</title>
+	<meta name="keywords" content="{$SEO['keyword']}">
+	<meta name="description" content="{$SEO['description']}">
+	<script src="{JS_PATH}jquery.min.js"></script>
+	<script type="text/javascript" language="javascript" src="{JS_PATH}slides.min.jquery.js"></script>
+		<script type="text/javascript">
+		$(function() {
+			var $backToTopTxt = "返回顶部", $backToTopEle = $('<div class="backToTop"></div>').appendTo($("body"))
+				.text($backToTopTxt).attr("title", $backToTopTxt).click(function() {
+					$("html, body").animate({ scrollTop: 0 }, 120);
+			}), $backToTopFun = function() {
+				var st = $(document).scrollTop(), winh = $(window).height();
+				(st > 0)? $backToTopEle.show(): $backToTopEle.hide();
+				//IE6下的定位
+				if (!window.XMLHttpRequest) {
+					$backToTopEle.css("top", st + winh - 166);
+				}
+			};
+			$(window).bind("scroll", $backToTopFun);
+			$(function() { $backToTopFun(); });
+		})();
+</script>
+	<script>
+	$(function(){
+		$('#slides').slides({
+			preload: true,
+			preloadImage: '{IMG_PATH}loading.gif',
+			play: 5000,
+			pause: 2500,
+			hoverPause: true,
+			animationStart: function(current){
+				$('.caption').animate({
+					bottom:-35
+				},100);
+			},
+			animationComplete: function(current){
+				$('.caption').animate({
+					bottom:0
+				},200);
+			},
+			slidesLoaded: function() {
+				$('.caption').animate({
+					bottom:0
+				},200);
+			}
+		});
+	});
+	</script>
+
+	<script>
+	function cswitchTab(ctabID, ctabboxDivID) {
+		for (i = 1; i < 5; i++) {
+			if ("ctab" + i == ctabID) {
+				document.getElementById(ctabID).className = "current";
+			} else {
+				document.getElementById("ctab" + i).className = "";
+			}
+			if ("ctabboxDiv" + i == ctabboxDivID) {
+				document.getElementById(ctabboxDivID).style.display = "";
+			} else {
+				document.getElementById("ctabboxDiv" + i).style.display ="none";
+			}
+		}
+	}
+	function nswitchTab(ntabID, ntabboxDivID) {
+		for (i = 1; i < 61; i++) {
+			if ("ntab" + i == ntabID) {
+				document.getElementById(ntabID).className = "n_current";
+			} else {
+				document.getElementById("ntab" + i).className = "";
+			}
+			if ("ntabboxDiv" + i == ntabboxDivID) {
+				document.getElementById(ntabboxDivID).style.display = "";
+			} else {
+				document.getElementById("ntabboxDiv" + i).style.display ="none";
+			}
+		}
+	}
+	</script>
+	<link rel="stylesheet" href="{CSS_PATH}index.css" type="text/css" />
+	<link rel="stylesheet" href="{CSS_PATH}menu.css" type="text/css" />
+	<link rel="stylesheet" href="{CSS_PATH}menu.style.css" type="text/css" media="screen" />
+	<link rel="stylesheet" href="{CSS_PATH}global.css" type="text/css" media="screen" />
+</head>
+<body id="top">
+<div class="header_w">
+	<div id="index_header" class="index_header">
+		<div id="logo" class="logo">
+			<a href="#">
+				<img src="{IMG_PATH}logo.png">
+			</a>
+		</div>
+		<div id="header_menu" class="header_menu">
+		<!--menu.html-->
+			<div class="container">
+				<div class="menu style-1">
+					<ul class="menu">    
+						<li><a href="http://zone.zmodo.com/blog/" target="_blank">CEO博客</a>
+							<div class="mega-menu col-2">
+									<div class="col-2">
+										<ol>
+										{pc:get sql="SELECT post_title,guid FROM wp_posts where post_status='publish' order by ID DESC" cache="0" num="10" dbsource="blog" return="data"}								
+										{loop $data  $r}
+										<li><a href="{$r['guid']}" title="{$r['post_title']}">{$r['post_title']}</a></li>
+										{/loop}
+										{/pc}
+										</ol>
+									</div>
+							</div>
+						</li>
+						<li><a href="#" >公司周刊</a>
+						</li>
+					<li><a href="#">员工分享</a>
+						
+							
+								{pc:content action="lists" catid="24" order="id DESC" thumb=""  num="10"  return="data" }
+								
+								{if !empty($data)}
+								<div class="mega-menu col-3">
+								<div class="col-3">
+									<ol>
+										{loop $data $n $r}
+										<li><a href="{$r['url']}" title="{$r['title']}">{$r['title']}</a></li>
+										{/loop}
+									</ol>
+									</div>
+									</div>
+								{/if}
+								{/pc}
+									
+							
+						
+					</li>
+					<li><a href="#">员工关怀</a>
+								{pc:content action="lists" catid="26" order="id DESC" thumb=""  num="10"  return="data" }
+								
+								{if !empty($data)}
+								<div class="mega-menu col-3">
+								<div class="col-3">
+									<ol>
+										{loop $data $n $r}
+										<li><a href="{$r['url']}" title="{$r['title']}">{$r['title']}</a></li>
+										{/loop}
+									</ol>
+									</div>
+									</div>
+								{/if}
+								{/pc}
+						
+					</li>
+					<li><a href="#">My ZONE</a></li>
+					</ul>
+				</div>
+			</div>
+
+		</div>
+	</div>
+</div>
+<!--{photo.html}-->
+<div class="bann_w">
+    <div class="bann">
+        <!--flash begin-->
+		<div id="container">
+			<div id="example">
+						<div id="slides">
+							<div class="slides_container">
+								<div class="slide">
+									<a href="#"  target="_blank"><img src="http://www.zmodo.com/skin/frontend/default/tem_zmodo/images/media/bann_ipc.jpg" width="994" height="358" alt="Slide 1"></a>
+									<div class="caption" style="bottom:0">
+										<p></p>
+									</div>
+								</div>
+								<div class="slide">
+									<a href="#"  target="_blank"><img src="http://www.zmodo.com/skin/frontend/default/tem_zmodo/images/media/bann_0605_en.jpg" width="994" height="358" alt="Slide 2"></a>
+									<div class="caption">
+										<p></p>
+									</div>
+								</div>
+								<div class="slide">
+									<a href="#"  target="_blank"><img src="http://www.zmodo.com/skin/frontend/default/tem_zmodo/images/media/bann_poe.jpg" width="994" height="358" alt="Slide 3"></a>
+									<div class="caption">
+										<p></p>
+									</div>
+								</div>
+								<div class="slide">
+									<a href="#"  target="_blank"><img src="http://www.zmodo.com/skin/frontend/default/tem_zmodo/images/media/bann0417b.jpg" width="994" height="358" alt="Slide 4"></a>
+									<div class="caption">
+										<p></p>
+									</div>
+								</div>
+
+							</div>
+						</div>
+				</div>
+        </div>
+		<!--flash end-->
+<!--banner.html-->
+<div class="banner_main color_wihte">
+	<ul id="ntabs" class="index_font color_r">
+	{pc:content action="category" catid="0" num="6" siteid="$siteid" order="listorder ASC" return="data5"}
+		{loop $data5 $k $v}
+			{$kkk++}
+			<li  id="ntab{$kkk}" onmouseover="nswitchTab('ntab{$kkk}','ntabboxDiv{$kkk}');this.blur();return false;"><a href="{$v[url]}">{$v[catname]}</a></li>
+		{/loop}
+	{/pc}
+	</ul>
+
+</div>
+	<div class="sencod_banner_box">
+		<div class="sencod_banner">
+    	
+			{pc:content action="category" catid="0" num="6" siteid="$siteid" order="listorder ASC" return="data6"}
+				{loop $data6 $ksb $v}
+					{$kk++}
+				<ul id="ntabboxDiv{$kk}" style="display:none;">
+        <span class="icon"></span>
+				{pc:content action="category" catid="$ksb" num="20" siteid="$siteid" order="listorder ASC"}
+					{loop $data $t $r} 
+					<li><a href="{$r[url]}">{$r[catname]}</a></li>
+					{/loop}
+				</ul>
+				{/pc}
+				{/loop}
+			{/pc}
+		</div>
+	</div>
+<div class="clear"></div>
